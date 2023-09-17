@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smooth_scroll_multiplatform/smooth_scroll_multiplatform.dart';
 import '../../../../res/constants.dart';
 import 'contact_icons.dart';
 import 'knowledges.dart';
@@ -11,31 +12,35 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: primaryColor,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const About(),
-            Container(
-              color: bgColor,
-              child: const Padding(
-                padding: EdgeInsets.all(defaultPadding / 2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    PersonalInfo(),
-                    MySKills(),
-                    Knowledges(),
-                    Divider(),
-                    SizedBox(
-                      height: defaultPadding,
-                    ),
-                    ContactIcon(),
-                  ],
+      backgroundColor: darkColor,
+      child: DynMouseScroll(
+        builder: (context, controller, physics) => SingleChildScrollView(
+          controller: controller,
+          physics: physics,
+          child: Column(
+            children: [
+              const About(),
+              Container(
+                color: bgColor,
+                child: const Padding(
+                  padding: EdgeInsets.all(defaultPadding / 2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      PersonalInfo(),
+                      MySKills(),
+                      Knowledges(),
+                      Divider(),
+                      SizedBox(
+                        height: defaultPadding,
+                      ),
+                      ContactIcon(),
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

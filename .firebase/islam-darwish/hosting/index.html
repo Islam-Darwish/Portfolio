@@ -2,6 +2,10 @@
 <html>
 
 <head>
+  <script src="https://unpkg.com/canvaskit-wasm@0.38.2/bin/canvaskit.js"></script>
+  <link rel="preload" href="https://unpkg.com/canvaskit-wasm@0.38.2/bin/canvaskit.wasm" as="fetch"
+    crossOrigin="anonymous">
+
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -39,18 +43,14 @@
   <title>Islam Darwish</title>
   <link rel="manifest" href="manifest.json">
 
+  <link rel="app-ads" href="app-ads.txt">
+
   <script>
     // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = "2961421066";
-  </script>
-  <script type="text/javascript">
-    window.flutterWebRenderer = "canvaskit";
+    const serviceWorkerVersion = "2362214189";
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
-  <script src="https://unpkg.com/canvaskit-wasm@0.33.0/bin/canvaskit.js"></script>
-  <link rel="preload" href="https://unpkg.com/canvaskit-wasm@0.33.0/bin/canvaskit.wasm" as="fetch"
-    crossOrigin="anonymous">
 </head>
 
 <body>
@@ -64,7 +64,7 @@
 
         onEntrypointLoaded: function (engineInitializer) {
           let config = {
-            renderer: "canvaskit",
+            renderer: "html",
           };
           engineInitializer.initializeEngine(config).then(function (appRunner) {
             appRunner.runApp();
