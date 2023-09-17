@@ -26,6 +26,12 @@ class _MenuButtonState extends State<MenuButton> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -47,13 +53,13 @@ class _MenuButtonState extends State<MenuButton> with TickerProviderStateMixin {
                       BoxShadow(
                           color: Colors.pinkAccent.withOpacity(0.5),
                           offset: const Offset(1, 1),
-                          blurRadius: _animation.value/2,
-                          spreadRadius: _animation.value/2),
+                          blurRadius: _animation.value / 2,
+                          spreadRadius: _animation.value / 2),
                       BoxShadow(
                           color: Colors.blue.withOpacity(0.5),
                           offset: const Offset(-1, -1),
-                          blurRadius: _animation.value/2,
-                          spreadRadius: _animation.value/2),
+                          blurRadius: _animation.value / 2,
+                          spreadRadius: _animation.value / 2),
                     ]),
                 child: Center(
                     child: ShaderMask(

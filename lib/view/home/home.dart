@@ -15,35 +15,52 @@ class HomePage extends StatelessWidget {
     DateTime lastDateTime = DateTime.now();
     int times = 0;
     return GestureDetector(
-      onPanUpdate: (details) {
-        // do something when scrolled
-        if (details.delta.dy < 0) {
-          if (lastDateTime.difference(DateTime.now()).inSeconds < 1) {
-            times++;
-          } else {
-            times = 0;
+      onHorizontalDragEnd: (DragEndDetails details) {
+        if ((details.primaryVelocity ?? 0) < 0) {
+          if (pageIndex == 0 &&
+              Introduction.scaffoldKey.currentContext != null &&
+              Scaffold.of(Introduction.scaffoldKey.currentContext!)
+                  .isDrawerOpen) {
+            Scaffold.of(Introduction.scaffoldKey.currentContext!).closeDrawer();
+            return;
           }
-          if (times >= 10) {
-            controller.animateToPage(nextPageIndex,
+          // User swiped Left
+          controller.animateToPage(nextPageIndex,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeIn);
+        } else if ((details.primaryVelocity ?? 0) > 0) {
+          if (pageIndex == 0 &&
+              Introduction.scaffoldKey.currentContext != null &&
+              !Scaffold.of(Introduction.scaffoldKey.currentContext!)
+                  .isDrawerOpen) {
+            Scaffold.of(Introduction.scaffoldKey.currentContext!).openDrawer();
+          } else {
+            // User swiped Right
+            controller.animateToPage(previusPageIndex,
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.easeIn);
-            times = 0;
           }
-        } else if (atBottom) {
-          // do something when scrolled
-          if (details.delta.dy > 0) {
-            if (lastDateTime.difference(DateTime.now()).inSeconds < 1) {
-              times++;
-            } else {
-              times = 0;
-            }
-            if (times >= 10) {
-              controller.animateToPage(previusPageIndex,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeIn);
-              times = 0;
-            }
-          }
+        }
+        if (NavigationButtonList.navigationState != null) {
+          NavigationButtonList.navigationState!(() {});
+        }
+      },
+      onVerticalDragEnd: (DragEndDetails details) {
+        if (Introduction.scaffoldKey.currentContext != null &&
+            Scaffold.of(Introduction.scaffoldKey.currentContext!)
+                .isDrawerOpen) {
+          return;
+        }
+        if ((details.primaryVelocity ?? 0) > 0) {
+          // User swiped Left
+          controller.animateToPage(previusPageIndex,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeIn);
+        } else if ((details.primaryVelocity ?? 0) < 0) {
+          // User swiped Right
+          controller.animateToPage(nextPageIndex,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeIn);
         }
         if (NavigationButtonList.navigationState != null) {
           NavigationButtonList.navigationState!(() {});
@@ -51,8 +68,14 @@ class HomePage extends StatelessWidget {
       },
       child: Listener(
         onPointerSignal: (pointerSignal) {
+          if (Introduction.scaffoldKey.currentContext != null &&
+              Scaffold.of(Introduction.scaffoldKey.currentContext!)
+                  .isDrawerOpen) {
+            return;
+          }
           if (pointerSignal is PointerScrollEvent && atBottom) {
             // do something when scrolled
+
             if (pointerSignal.scrollDelta.dy > 0) {
               if (lastDateTime.difference(DateTime.now()).inSeconds < 1) {
                 times++;
@@ -68,6 +91,7 @@ class HomePage extends StatelessWidget {
             }
           } else if (pointerSignal is PointerScrollEvent && atTop) {
             // do something when scrolled
+
             if (pointerSignal.scrollDelta.dy < 0) {
               if (lastDateTime.difference(DateTime.now()).inSeconds < 1) {
                 times++;

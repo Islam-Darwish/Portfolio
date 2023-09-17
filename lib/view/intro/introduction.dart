@@ -9,11 +9,14 @@ import 'components/social_media_list.dart';
 
 class Introduction extends StatelessWidget {
   const Introduction({super.key});
+  static final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     atTop = true;
     atBottom = true;
     return Scaffold(
+      key: scaffoldKey,
+      drawerEnableOpenDragGesture: false,
       body: Row(
         children: [
           SizedBox(
