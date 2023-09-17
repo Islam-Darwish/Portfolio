@@ -10,23 +10,23 @@ class ImageViewer {
       barrierLabel: 'Barrier',
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) {
-        return Center(
-          child: Hero(
-            tag: 'IMAGEVIEW',
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Scaffold(
-                backgroundColor: Colors.black,
-                body: Container(
-                    color: Colors.white,
-                    child: Center(
-                      child: PhotoView(imageProvider: AssetImage(image))
-                      ),
+        return LayoutBuilder(
+          builder: (context, constraints) => Center(
+            child: Hero(
+              tag: 'IMAGEVIEW',
+              child: SizedBox(
+                height: constraints.maxHeight,
+                width: constraints.maxWidth,
+                child: Scaffold(
+                    backgroundColor: Colors.black,
+                    body: Container(
+                      color: Colors.white,
+                      child: Center(
+                          child: PhotoView(imageProvider: AssetImage(image))),
                     )),
               ),
             ),
-
+          ),
         );
       },
     );

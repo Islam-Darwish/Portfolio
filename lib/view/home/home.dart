@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../res/constants.dart';
 import '../../view model/controller.dart';
 import '../intro/introduction.dart';
 import '../main/components/navigation_button_list.dart';
@@ -17,12 +18,16 @@ class HomePage extends StatelessWidget {
     return GestureDetector(
       onHorizontalDragEnd: (DragEndDetails details) {
         if ((details.primaryVelocity ?? 0) < 0) {
-          if (pageIndex == 0 &&
-              Introduction.scaffoldKey.currentContext != null &&
-              Scaffold.of(Introduction.scaffoldKey.currentContext!)
-                  .isDrawerOpen) {
-            Scaffold.of(Introduction.scaffoldKey.currentContext!).closeDrawer();
-            return;
+          if (pageIndex == 0) {
+            if (Introduction.scaffoldKey.currentState != null &&
+                Introduction.scaffoldKey.currentState!.isDrawerOpen) {
+              Introduction.scaffoldKey.currentState!.closeDrawer();
+              return;
+            } else if (MainView.scaffoldKey.currentState != null &&
+                MainView.scaffoldKey.currentState!.isDrawerOpen) {
+              MainView.scaffoldKey.currentState!.closeDrawer();
+              return;
+            }
           }
           // User swiped Left
           controller.animateToPage(nextPageIndex,
@@ -30,10 +35,11 @@ class HomePage extends StatelessWidget {
               curve: Curves.easeIn);
         } else if ((details.primaryVelocity ?? 0) > 0) {
           if (pageIndex == 0 &&
-              Introduction.scaffoldKey.currentContext != null &&
-              !Scaffold.of(Introduction.scaffoldKey.currentContext!)
-                  .isDrawerOpen) {
-            Scaffold.of(Introduction.scaffoldKey.currentContext!).openDrawer();
+              ((Introduction.scaffoldKey.currentState != null &&
+                      !Introduction.scaffoldKey.currentState!.isDrawerOpen) ||
+                  ((MainView.scaffoldKey.currentState != null &&
+                      !MainView.scaffoldKey.currentState!.isDrawerOpen)))) {
+            MainView.scaffoldKey.currentState!.openDrawer();
           } else {
             // User swiped Right
             controller.animateToPage(previusPageIndex,
@@ -46,9 +52,10 @@ class HomePage extends StatelessWidget {
         }
       },
       onVerticalDragEnd: (DragEndDetails details) {
-        if (Introduction.scaffoldKey.currentContext != null &&
-            Scaffold.of(Introduction.scaffoldKey.currentContext!)
-                .isDrawerOpen) {
+        if ((Introduction.scaffoldKey.currentState != null &&
+                Introduction.scaffoldKey.currentState!.isDrawerOpen) ||
+            (MainView.scaffoldKey.currentState != null &&
+                MainView.scaffoldKey.currentState!.isDrawerOpen)) {
           return;
         }
         if ((details.primaryVelocity ?? 0) > 0) {
@@ -68,9 +75,10 @@ class HomePage extends StatelessWidget {
       },
       child: Listener(
         onPointerSignal: (pointerSignal) {
-          if (Introduction.scaffoldKey.currentContext != null &&
-              Scaffold.of(Introduction.scaffoldKey.currentContext!)
-                  .isDrawerOpen) {
+          if ((Introduction.scaffoldKey.currentState != null &&
+                  Introduction.scaffoldKey.currentState!.isDrawerOpen) ||
+              (MainView.scaffoldKey.currentState != null &&
+                  MainView.scaffoldKey.currentState!.isDrawerOpen)) {
             return;
           }
           if (pointerSignal is PointerScrollEvent && atBottom) {
@@ -110,10 +118,15 @@ class HomePage extends StatelessWidget {
             NavigationButtonList.navigationState!(() {});
           }
         },
-        child: MainView(pages: [
-          const Introduction(),
-          ProjectsView(),
-        ]),
+        child: Container(
+          color: bgColor,
+          child: SafeArea(
+            child: MainView(pages: [
+              const Introduction(),
+              ProjectsView(),
+            ]),
+          ),
+        ),
       ),
     );
   }

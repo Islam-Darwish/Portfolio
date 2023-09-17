@@ -65,7 +65,7 @@ class ProjectGrid extends StatelessWidget {
                       blurRadius: controller.hovers[index] ? 20 : 10,
                     ),
                   ]),
-              child: ProjectStack(index: index)));
+              child: ProjectStack( index: index)));
         },
       ),
     );

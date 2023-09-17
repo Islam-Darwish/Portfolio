@@ -10,7 +10,7 @@ class AnimatedLoadingText extends StatelessWidget {
     return SizedBox(
       width: defaultPadding * 5,
       child: TweenAnimationBuilder(
-        duration: const Duration(seconds: 2),
+        duration: const Duration(milliseconds: 1500),
         builder: (context, value, child) => Column(
           children: [
             LinearProgressIndicator(
