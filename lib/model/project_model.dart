@@ -35,6 +35,11 @@ List<Project> projectList = [
       'assets/images/ISO2USB COVER.png',
       'https://play.google.com/store/apps/details?id=com.mixapplications.iso2usb&hl=en&gl=US'),
   Project(
+      'MULTIOS USB',
+      'MULTIOS USB is a tool to create non-windows bootable USB drive.',
+      'assets/images/MULTIOS COVER.png',
+      'https://play.google.com/store/apps/details?id=com.mixapplications.multiosusb'),
+  Project(
       'USB FILE MANAGER',
       'USB File Manager & File System Viewer is a small app to brawse , open, share ... etc. usb files. supported partition filesystem: FAT16 - FAT32 - EXFAT - NTFS - EXT 2,3,4',
       'assets/images/USB FILE MANAGER COVER.png',
